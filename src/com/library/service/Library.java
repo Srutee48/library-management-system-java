@@ -103,7 +103,7 @@ public class Library {
         }
     }
 
-    public IssueRecord issueBooks ( String isbn, String memberId) throws BookNotFoundException, MemberNotFoundException, BookUnavailableException {
+    public IssueRecord issueBook ( String isbn, String memberId) throws BookNotFoundException, MemberNotFoundException, BookUnavailableException {
         Book targetBook = null;
         for ( Book book : books){
             if( book.getIsbn().equalsIgnoreCase(isbn)){
