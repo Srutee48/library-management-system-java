@@ -2,17 +2,23 @@ package com.library.service;
 
 import com.library.model.Book;
 import com.library.model.Member;
+import com.library.model.IssueRecord;
 import com.library.exception.DuplicateISBNException;
+import com.library.exception.MemberNotFoundException;
+import com.library.exception.BookUnavailableException;
+import com.library.exception.BookNotFoundException;
 import java.util.ArrayList;
-
+import java.time.LocalDate;
 public class Library {
     private ArrayList <Book> books;
     private ArrayList <Member> members;
+    private ArrayList<IssueRecord> issueRecords;
     private int memberIdCounter;
 
     public Library(){
         this.books = new ArrayList<>();
         this.members = new ArrayList<>();
+        this.issueRecords = new ArrayList<>();
         this.memberIdCounter = 1;
     }
     public void addBook( Book newBook) throws DuplicateISBNException {
@@ -63,5 +69,37 @@ public class Library {
         for(Member member : members){
             System.out.println(member);
         }
+    }
+
+    public IssueRecord issueBooks ( String isbn, String memberId) throws BookNotFoundException, MemberNotFoundException, BookUnavailableException {
+        Book targetBook = null;
+        for ( Book book : books){
+            if( book.getIsbn().equalsIgnoreCase(isbn)){
+                targetBook = book;
+                break;
+            }
+        }
+        if ( targetBook == null){
+            throw new BookNotFoundException ("No book found with ISBN: " + isbn);
+        }
+
+        Member targetMember = null;
+        for ( Member member : members){
+            if( member.getMemberId().equalsIgnoreCase(memberId)){
+                targetMember = member;
+                break;
+            }
+        }
+        if ( targetMember == null){
+            throw new MemberNotFoundException ("No member found with ID: " + memberId);
+        }
+        if ( !targetBook.isAvailable()){
+            throw new BookUnavailableException("Book \"" + targetBook.getTitle() + "\" is currently not available.");
+        }
+        targetBook.setAvailable(false);
+        IssueRecord record = new IssueRecord (isbn, memberId, LocalDate.now());
+        issueRecords.add(record);
+        return record;
+
     }
 }

@@ -3,9 +3,13 @@ package com.library;
 import com.library.model.Book;
 import com.library.service.Library;
 import com.library.model.Member;
+import com.library.model.IssueRecord;
 import java.util.ArrayList;
 
 import com.library.exception.DuplicateISBNException;
+import com.library.exception.BookNotFoundException;
+import com.library.exception.BookUnavailableException;
+import com.library.exception.MemberNotFoundException;
 
 public class Main {
     public static void main(String[] args) {
@@ -51,5 +55,31 @@ public class Main {
 
         System.out.println("\n---- All Members ----");
         library.viewAllMembers();
+
+
+        System.out.println("\n---- Issuing Books ----");
+        try {
+            IssueRecord record1 =library.issueBooks("978-0134685991", "M001");
+            System.out.println("Issued: " + record1);
+        } catch ( BookNotFoundException | BookUnavailableException | MemberNotFoundException  e){
+            System.out.println("Error: " +e.getMessage());
+        }
+
+        try {
+            IssueRecord record2 =library.issueBooks("978-0134685991", "M001");
+            System.out.println("Issued: " + record2);
+        } catch ( BookNotFoundException | BookUnavailableException | MemberNotFoundException  e){
+            System.out.println("Error: " +e.getMessage());
+        }
+
+        try {
+            IssueRecord record3 =library.issueBooks("000-0000000000", "M001");
+            System.out.println("Issued: " + record3);
+        } catch ( BookNotFoundException | BookUnavailableException | MemberNotFoundException  e){
+            System.out.println("Error: " +e.getMessage());
+        }
+
+        System.out.println("\n ----- Books After Issuing ----");
+        library.viewAllBooks();
     }
 }
