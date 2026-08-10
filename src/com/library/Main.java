@@ -5,15 +5,55 @@ import com.library.service.Library;
 import com.library.model.Member;
 import com.library.model.IssueRecord;
 import java.util.ArrayList;
-
+import com.library.util.FileManager;
 import com.library.exception.DuplicateISBNException;
 import com.library.exception.BookNotFoundException;
 import com.library.exception.BookUnavailableException;
 import com.library.exception.MemberNotFoundException;
 
 public class Main {
+           
+    private static final String BOOKS_FILE = "data/books.txt";
+    private static final String MEMBERS_FILE = "data/members.txt";
+    private static final String ISSUED_FILE = "data/issued.txt";
+
     public static void main(String[] args) {
         Library library = new Library();
+        FileManager fileManager = new FileManager();
+        
+
+        ArrayList<Book> loadedBooks = fileManager.loadBooks(BOOKS_FILE);
+        ArrayList<Member> loadedMembers = fileManager.loadMembers(MEMBERS_FILE);
+        ArrayList<IssueRecord> loadedRecords = fileManager.loadIssueRecords(ISSUED_FILE);
+
+        library.loadData ( loadedBooks, loadedMembers, loadedRecords);
+
+        System.out.println("--- Data loaded from files ---");
+        library.viewAllBooks();
+        library.viewAllMembers();
+        library.viewAllIssueRecords();
+
+
+        if( loadedBooks.isEmpty()){
+            try{
+                library.addBook(new Book("978-0134685991" , "Effective Java", "Joshua Bloch"));
+                library.addBook(new Book("978-0596009205" , "Head First Design patterns", "Freeman & Robson"));
+            } catch ( DuplicateISBNException e){
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+
+        if ( loadedMembers.isEmpty()){
+            library.addMember("Soniya patra", "987456123");
+            library.addMember("Ravi Kumar","123654789");
+
+        }
+
+        fileManager.saveBooks(library.getBooks(), BOOKS_FILE);
+        fileManager.saveMembers(library.getMembers(), MEMBERS_FILE);
+        fileManager.saveIssueRecords(library.getIssueRecords(), ISSUED_FILE);
+       
+        System.out.println("\n ---- Data saved. Exiting. ----");
 
         // ---------------------------------------------------------------------------------------
         try{

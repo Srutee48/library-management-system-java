@@ -21,6 +21,38 @@ public class Library {
         this.issueRecords = new ArrayList<>();
         this.memberIdCounter = 1;
     }
+
+    public ArrayList<Book> getBooks(){
+        return books;
+    }
+
+    public ArrayList<Member> getMembers(){
+        return members;
+    }
+
+    public ArrayList<IssueRecord> getIssueRecords(){
+        return issueRecords;
+    }
+
+    public void loadData(ArrayList<Book> loadedBooks, ArrayList<Member> loadedMembers, ArrayList<IssueRecord> loadedRecords){
+        this.books = loadedBooks;
+        this.members = loadedMembers;
+        this.issueRecords = loadedRecords;
+
+        int maxId = 0;
+        for( Member member : members){
+            try {
+                int idNumber = Integer.parseInt(member.getMemberId().substring(1));
+                if( idNumber > maxId){
+                    maxId = idNumber;
+                }
+            } catch ( NumberFormatException e){
+
+            }
+        }
+        this.memberIdCounter = maxId + 1;
+    }
+
     public void addBook( Book newBook) throws DuplicateISBNException {
         for ( Book existingBook : books){
             if(existingBook.getIsbn().equalsIgnoreCase(newBook.getIsbn())){
