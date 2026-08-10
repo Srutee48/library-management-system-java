@@ -102,4 +102,27 @@ public class Library {
         return record;
 
     }
+
+    public IssueRecord returnBook( String isbn) throws BookNotFoundException {
+        IssueRecord activeRecord = null ;
+        for ( IssueRecord record : issueRecords){
+            if( record.getIsbn().equalsIgnoreCase(isbn) && !record.isReturned()){
+                activeRecord = record ;
+                break;
+            }
+        }
+        if (activeRecord == null){
+            throw new BookNotFoundException("No active issue record found for ISBN: " +isbn);
+        }
+
+        activeRecord.setReturnDate(LocalDate.now());
+
+        for ( Book book : books){
+            if ( book.getIsbn().equalsIgnoreCase(isbn)){
+                book.setAvailable(true);
+                break;
+            }
+        }
+        return activeRecord;
+    }
 }

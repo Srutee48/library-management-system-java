@@ -15,6 +15,7 @@ public class Main {
     public static void main(String[] args) {
         Library library = new Library();
 
+        // ---------------------------------------------------------------------------------------
         try{
             library.addBook(new Book("978-0134685991" , "Effective Java", "Joshua Bloch"));
             library.addBook(new Book("978-0596009205" , "Head First Design patterns", "Freeman & Robson"));
@@ -30,6 +31,7 @@ public class Main {
             System.out.println("Error: " + e.getMessage());
         }
 
+        // ---------------------------------------------------------------------------------------
         System.out.println("\n---- Searching for 'java'----");
         ArrayList<Book> results = library.searchBooks("java");
         if (results.isEmpty()){
@@ -46,6 +48,7 @@ public class Main {
             System.out.println("No matching books found.");
         }
 
+        // ---------------------------------------------------------------------------------------
         System.out.println("\n--- Adding Members ----");
         Member m1 = library.addMember("Soniya patra", "987456123");
         Member m2 = library.addMember("Ravi Kumar","123654789");
@@ -57,6 +60,7 @@ public class Main {
         library.viewAllMembers();
 
 
+        // ---------------------------------------------------------------------------------------
         System.out.println("\n---- Issuing Books ----");
         try {
             IssueRecord record1 =library.issueBooks("978-0134685991", "M001");
@@ -80,6 +84,27 @@ public class Main {
         }
 
         System.out.println("\n ----- Books After Issuing ----");
+        library.viewAllBooks();
+
+
+
+        // ---------------------------------------------------------------------------------------
+        System.out.println("\n---- Returning a Book -----");
+        try {
+            IssueRecord returned = library.returnBook("978-0134685991");
+            System.out.println("Returned: " + returned);
+        } catch ( BookNotFoundException e){
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        try {
+            IssueRecord returned = library.returnBook("978-0134685991");
+            System.out.println("Returned: " + returned);
+        } catch ( BookNotFoundException e){
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        System.out.println("\n ---- Books After Return -----");
         library.viewAllBooks();
     }
 }
