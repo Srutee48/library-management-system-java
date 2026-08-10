@@ -125,4 +125,34 @@ public class Library {
         }
         return activeRecord;
     }
+
+    public void viewIssuedBooks(){
+        ArrayList<IssueRecord> activeRecords = new ArrayList<>();
+        for ( IssueRecord record : issueRecords){
+            if( ! record.isReturned()){
+                activeRecords.add(record);
+            }
+        }
+        if ( activeRecords.isEmpty()){
+            System.out.println("No books are currently issued.");
+            return;
+        }
+
+        System.out.println("---- Currently Issued Books (" + activeRecords.size() + ") -----");
+        for( IssueRecord record : activeRecords){
+            System.out.println(record);
+        }
+    }
+
+    public void viewAllIssueRecords(){
+        if ( issueRecords.isEmpty()){
+            System.out.println("No issue record yet.");
+            return;
+        }
+
+        System.out.println(" ---- Full Issue History (" + issueRecords.size() + ") ----");
+        for ( IssueRecord record : issueRecords){
+            System.out.println(record);
+        }
+    }
 }

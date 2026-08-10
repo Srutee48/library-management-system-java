@@ -106,5 +106,23 @@ public class Main {
 
         System.out.println("\n ---- Books After Return -----");
         library.viewAllBooks();
+        
+
+        
+
+        // ---------------------------------------------------------------------------------------
+        System.out.println("\n---- Issuing  another book for the report test ----");
+        try {
+            library.issueBooks("978-0596009205", "M002");
+        } catch ( BookNotFoundException | BookUnavailableException | MemberNotFoundException  e){
+            System.out.println("Error: " +e.getMessage());
+        }
+
+        System.out.println(" \n ----- Currently Issued Books ----");
+        library.viewIssuedBooks();
+
+        System.out.println(" \n ----- Full Issued History ----");
+        library.viewAllIssueRecords();
+
     }
 }
