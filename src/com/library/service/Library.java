@@ -47,7 +47,7 @@ public class Library {
                     maxId = idNumber;
                 }
             } catch ( NumberFormatException e){
-
+                // Malformed member ID (doesn't start with "M" + digits) - skip it, don't crash
             }
         }
         this.memberIdCounter = maxId + 1;
@@ -170,7 +170,7 @@ public class Library {
             return;
         }
 
-        System.out.println("---- Currently Issued Books (" + activeRecords.size() + ") -----");
+        System.out.println("---- Currently Issued Books (" + activeRecords.size() + ") ----");
         for( IssueRecord record : activeRecords){
             System.out.println(record);
         }
@@ -182,7 +182,7 @@ public class Library {
             return;
         }
 
-        System.out.println(" ---- Full Issue History (" + issueRecords.size() + ") ----");
+        System.out.println(" ---- Full Issue History (" + issueRecords.size() + ") ---- ");
         for ( IssueRecord record : issueRecords){
             System.out.println(record);
         }
