@@ -121,7 +121,7 @@ LibraryManagementSystem/
 ## Sample Screenshots
 
 **Main Menu**
-(![Main Menu](screenshots/main-menu.png))
+![Main Menu](screenshots/main-menu.png)
 
 **Adding a Book**
 ![Add Book](screenshots/add-book.png)
